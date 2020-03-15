@@ -8,3 +8,5 @@
 
 > <env_name>/Scritps/deactivate.bat
 
+> pip freeze > requirements.txt
+

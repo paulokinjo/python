@@ -11,6 +11,16 @@ pipeline {
 	}
 
 	stages {
+    stage ('temp') {
+      steps {
+        echo "${env.DOCKERHUB_CREDENTIALS}"
+        echo "${env.imageName}"
+        echo "${env.commit}"
+        echo "${env.imageTag}"
+        echo "${env.dockerImage}_"
+      }
+    }
+
 		stage('Build') {
 			steps {
         script {
@@ -34,8 +44,8 @@ pipeline {
 	post {
 		always {
 			sh 'docker logout'
-      sh "docker rmi $imagename:$BUILD_NUMBER"
-      sh "docker rmi $imagename:$imageTag"
+      // sh "docker rmi $imagename:$BUILD_NUMBER"
+      // sh "docker rmi $imagename:$imageTag"
 		}
 	}
 

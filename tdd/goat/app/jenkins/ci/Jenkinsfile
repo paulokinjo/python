@@ -1,6 +1,10 @@
 pipeline {
 
-	agent any 
+	agent {
+    any {
+      customWorkspace '../'
+    }
+  }
 
 	environment {
     workDir = '../tdd/goat/app'

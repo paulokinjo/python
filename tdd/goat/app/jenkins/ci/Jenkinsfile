@@ -10,7 +10,8 @@ pipeline{
 	stages {
 		stage('Build') {
 			steps {
-				sh 'docker build -t paulokinjo/python-superlist:${env.BUILD_NUMBER}-${env.commit} .'        
+        echo '${env.BUILD_NUMBER}-${commit}'
+				sh "docker build -t paulokinjo/python-superlist:${env.BUILD_NUMBER}-${commit} .'        
 			}
 		}
 

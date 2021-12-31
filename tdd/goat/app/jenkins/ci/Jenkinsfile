@@ -6,8 +6,7 @@ pipeline {
 		DOCKERHUB_CREDENTIALS = 'dockerhub-cred-paulo'
     imageName             = "paulokinjo/python-superlists"
     commit                = sh(returnStdout: true, script: 'git log --format="%H" -n 1')
-    imageTag              = sh(returnStdout: true, script: "echo ${env.BUILD_NUMBER}.${env.commit}")    
-    dockerImage           = ''
+    imageTag              = sh(returnStdout: true, script: "echo ${env.BUILD_NUMBER}${env.commit}")        
 	}
 
 	stages {

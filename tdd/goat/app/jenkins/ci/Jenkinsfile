@@ -13,7 +13,7 @@ pipeline {
 	stages {
 		stage('Build') {
 			steps {
-        dir("${env.workDir}") {
+        dir("$workDir") {
             sh 'ls -al'
             sh 'docker build -t paulokinjo/python-superlists:21d9fe443b52cc944e35fa7c9e6858f132d1add71a .'
         }

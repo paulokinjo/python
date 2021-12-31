@@ -4,18 +4,13 @@ pipeline{
 
 	environment {
 		DOCKERHUB_CREDENTIALS=credentials('dockerhub-cred-paulo')
+    commit = sh(returnStdout: true, script: 'git log --format="%H" -n 1')
 	}
 
 	stages {
-
 		stage('Build') {
-
 			steps {
-        script {
-          gitTag = sh(returnStdout: true, script: 'git log --format="%H" -n 1')
-        }
-				// sh 'docker build -t paulokinjo/python-superlist: .'
-        sh "git tag ${env.BUILD_NUMBER}-${gitTag}"
+				sh 'docker build -t paulokinjo/python-superlist:${env.BUILD_NUMBER}-${env.commit} .'        
 			}
 		}
 
@@ -27,10 +22,8 @@ pipeline{
 		}
 
 		stage('Push') {
-
 			steps {
-				// sh 'docker push paulokinjo/nodeapp:latest'
-        echo 'Pushing'
+				sh 'docker push paulokinjo/python-superlist:${env.BUILD_NUMBER}-${env.commit}'
 			}
 		}
 	}

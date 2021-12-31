@@ -1,6 +1,9 @@
 pipeline {
 
-	agent any
+	agent {
+    any
+    customWorkspace '/tdd/goat/app'
+  }
 
 	environment {
 		DOCKERHUB_CREDENTIALS = 'dockerhub-cred-paulo'

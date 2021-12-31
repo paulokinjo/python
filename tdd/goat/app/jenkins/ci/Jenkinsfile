@@ -3,7 +3,7 @@ pipeline {
 	agent any
   
 	environment {
-    workDir = '../tdd/goat/app'
+    workDir = 'tdd/goat/app'
 		DOCKERHUB_CREDENTIALS = 'dockerhub-cred-paulo'
     imageName             = "paulokinjo/python-superlists"
     commit                = sh(returnStdout: true, script: 'git log --format="%H" -n 1')
@@ -14,10 +14,8 @@ pipeline {
 		stage('Build') {
 			steps {        
         dir("tdd/goat/app") {
-          sh 'pwd'
-          sh 'ls -al'
+          sh 'docker build -t paulokinjo/python-superlists:21d9fe443b52cc944e35fa7c9e6858f132d1add71a .'
         }
-        // sh 'docker build -t paulokinjo/python-superlists:21d9fe443b52cc944e35fa7c9e6858f132d1add71a .'
 			}
 		}
 	}

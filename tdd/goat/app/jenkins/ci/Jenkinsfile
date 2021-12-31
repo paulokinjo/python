@@ -11,8 +11,11 @@ pipeline{
 		stage('Build') {
 
 			steps {
+        script {
+          gitTag = $(git log --format="%H" -n 1)
+        }
 				// sh 'docker build -t paulokinjo/python-superlist: .'
-        sh "git tag build_${gitCommit}"
+        sh "git tag ${env.BUILD_NUMBER}-${gitTag}"
 			}
 		}
 

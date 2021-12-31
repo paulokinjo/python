@@ -12,7 +12,7 @@ pipeline{
 
 			steps {
         script {
-          gitTag = $(git log --format="%H" -n 1)
+          gitTag = sh(returnStdout: true, script: 'git log --format="%H" -n 1')
         }
 				// sh 'docker build -t paulokinjo/python-superlist: .'
         sh "git tag ${env.BUILD_NUMBER}-${gitTag}"

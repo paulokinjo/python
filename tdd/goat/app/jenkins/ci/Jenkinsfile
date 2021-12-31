@@ -3,18 +3,18 @@ pipeline {
 	agent any
   
 	environment {
-    WORK_DIR = 'tdd/goat/app'
-		DOCKERHUB_CREDENTIALS = 'dockerhub-cred-paulo'
-    imageName             = "paulokinjo/python-superlists"
-    commit                = sh(returnStdout: true, script: 'git log --format="%H" -n 1')
-    imageTag              = sh(returnStdout: true, script: "echo ${env.BUILD_NUMBER}${env.commit}")        
+    WORK_DIR               = 'tdd/goat/app'
+		DOCKERHUB_CREDENTIALS  = 'dockerhub-cred-paulo'
+    IMAGE_NAME             = "paulokinjo/python-superlists"
+    GIT_COMMIT             = sh(returnStdout: true, script: 'git log --format="%H" -n 1')
+    IMAGE_TAG              = sh(returnStdout: true, script: "echo ${env.BUILD_NUMBER}${env.GIT_COMMIT}")        
 	}
 
 	stages {
 		stage('Build') {
 			steps {        
         dir("${env.WORK_DIR}") {
-          sh 'docker build -t ${imageName}:${imageTag} .'
+          sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
         }
 			}
 		}
@@ -22,8 +22,7 @@ pipeline {
 
 	post {
 		always {
-      echo "$imagename:$BUILD_NUMBER"
-      echo "$imagename:$imageTag"
+      echo "$IMAGE_NAME:$IMAGE_TAG"
 		}
 	}
 

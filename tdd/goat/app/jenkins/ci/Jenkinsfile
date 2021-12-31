@@ -2,7 +2,7 @@ pipeline {
 
 	agent {
     any {
-      customWorkspace '../'
+      customWorkspace '/../'
     }
   }
 
@@ -18,6 +18,8 @@ pipeline {
 		stage('Build') {
 			steps {
         echo "${env.WORKSPACE}"
+        sh 'pwd'
+        sh 'ls -al'
         // sh 'docker build -t paulokinjo/python-superlists:21d9fe443b52cc944e35fa7c9e6858f132d1add71a .'
 			}
 		}

@@ -1,4 +1,4 @@
-pipeline{
+pipeline {
 
 	agent any
 
@@ -23,8 +23,9 @@ pipeline{
 			steps {
         script {
           docker.withRegistry( '', DOCKERHUB_CREDENTIALS ) {
-          dockerImage.push("$BUILD_NUMBER")
-          dockerImage.push(imageTag)
+            dockerImage.push("$BUILD_NUMBER")
+            dockerImage.push(imageTag)
+          }
         }
 			}
 		}

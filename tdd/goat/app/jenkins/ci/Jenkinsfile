@@ -1,7 +1,9 @@
 pipeline {
 
 	agent {
-    customWorkspace '/tdd/goat/app'
+    any {
+      customWorkspace '/tdd/goat/app'
+    }    
   }
 
 	environment {

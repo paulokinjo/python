@@ -27,6 +27,7 @@ pipeline{
 
 			steps {
 				// sh 'docker push paulokinjo/nodeapp:latest'
+        echo 'Pushing'
 			}
 		}
 	}

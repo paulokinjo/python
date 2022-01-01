@@ -15,6 +15,7 @@ pipeline {
 			steps {        
         dir("${env.WORK_DIR}") {
           sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
+          sh 'docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest'
         }
 			}
 		}
@@ -25,25 +26,34 @@ pipeline {
           withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
             sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
             sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
+            sh 'docker push ${IMAGE_NAME}:latest'
           }
         }
       }
     }
 
     stage('Unit Test') {            
+      environment {
+        TEST_COMMAND = "docker container run --rm -v ${env.WORKSPACE}${env.WORK_DIR}:/usr/src/app paulokinjo/python-superlists:latest python3 manage.py test lists/"
+      }
       steps {
-        dir("${env.WORK_DIR}") {                  
-          sh """
-            docker container run --rm ${env.IMAGE_NAME}:${env.IMAGE_TAG} /usr/local/bin/python3 manage.py test lists/
-          """
+        dir("${env.WORK_DIR}") {                            
+          sh "${env.TEST_COMMAND}"
         }
       }
     }
 	}
 
 	post {
-		always {
-      echo "Post Always"
+		success {
+      publishHTML (target: [
+        allowMissing: false,
+        alwaysLinkToLastBuild: false,
+        keepAll: true,
+        reportDir: "${env.WORK_DIR}/reports/cover",
+        reportFiles: 'index.html',
+        reportName: "SuperLists Test Coverage Report"
+      ])
 		}
 	}
 

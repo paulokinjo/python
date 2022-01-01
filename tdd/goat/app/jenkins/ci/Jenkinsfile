@@ -15,11 +15,22 @@ pipeline {
 	}
 
 	stages {
-    stage('Unit Test') {
+    stage('Setup') {
       steps {
-        dir("${env.WORK_DIR}") {
-          sh 'ls -al'
-          sh 'pip3 install -r requirements.txt'
+        sh '/usr/local/bin/python -m pip install --upgrade pip' 
+      }
+    }
+
+    stage('Install Requirements') {
+      steps {
+        dir("${env.WORK_DIR}") {                  
+          sh 'pip3 install -r requirements.txt --user'
+        }
+      }
+    }
+    stage('Unit Test') {      
+      steps {
+        dir("${env.WORK_DIR}") {                  
           sh 'python3 manage.py test lists/'
         }
       }

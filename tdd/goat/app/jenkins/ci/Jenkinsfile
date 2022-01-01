@@ -30,15 +30,10 @@ pipeline {
       }
     }
 
-    stage('Unit Test') {      
-      agent {
-        docker {
-          image '${IMAGE_NAME}:${IMAGE_TAG}'
-        }
-      }
+    stage('Unit Test') {            
       steps {
         dir("${env.WORK_DIR}") {                  
-          sh 'python3 manage.py test lists/'
+          sh "docker container run --rm -it ${env.IMAGE_NAME}:${env.IMAGE_TAG} /usr/local/bin/python3 manage.py test lists/"
         }
       }
     }

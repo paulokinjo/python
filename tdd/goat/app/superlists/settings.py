@@ -124,3 +124,8 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+NOSE_ARGS = ['--with-spec', '--spec-color', 
+         '--with-coverage', '--cover-html', 
+         '--cover-package=.', '--cover-html-dir=reports/cover']

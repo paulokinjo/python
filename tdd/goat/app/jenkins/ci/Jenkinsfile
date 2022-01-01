@@ -11,6 +11,14 @@ pipeline {
 	}
 
 	stages {
+    stage('Unit Test') {
+      steps {
+        dir("${env.WORK_DIR}") {
+          sh 'python3 manage.py test lists/'
+        }
+      }
+    }
+
 		stage('Docker Build') {
 			steps {        
         dir("${env.WORK_DIR}") {

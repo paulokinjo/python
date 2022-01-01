@@ -1,10 +1,6 @@
 pipeline {
 
-	agent {
-    docker { 
-      image 'python:3.10' 
-    }
-  }
+	agent any
   
 	environment {
     WORK_DIR               = 'tdd/goat/app'
@@ -14,28 +10,7 @@ pipeline {
     IMAGE_TAG              = sh(returnStdout: true, script: "echo ${env.BUILD_NUMBER}${GIT_COMMIT}")        
 	}
 
-	stages {
-    stage('Setup') {
-      steps {
-        sh '/usr/local/bin/python -m pip install --upgrade pip' 
-      }
-    }
-
-    stage('Install Requirements') {
-      steps {
-        dir("${env.WORK_DIR}") {                  
-          sh 'pip3 install -r requirements.txt --user'
-        }
-      }
-    }
-    stage('Unit Test') {      
-      steps {
-        dir("${env.WORK_DIR}") {                  
-          sh 'python3 manage.py test lists/'
-        }
-      }
-    }
-
+	stages {        
 		stage('Docker Build') {
 			steps {        
         dir("${env.WORK_DIR}") {
@@ -51,6 +26,19 @@ pipeline {
             sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
             sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
           }
+        }
+      }
+    }
+
+    stage('Unit Test') {      
+      agent {
+        docker {
+          image '${IMAGE_NAME}:${IMAGE_TAG}'
+        }
+      }
+      steps {
+        dir("${env.WORK_DIR}") {                  
+          sh 'python3 manage.py test lists/'
         }
       }
     }

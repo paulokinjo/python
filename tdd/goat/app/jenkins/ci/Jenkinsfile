@@ -34,7 +34,7 @@ pipeline {
 
     stage('Unit Test') {            
       environment {
-        TEST_COMMAND = "docker container run --rm -v ${env.WORKSPACE}${env.WORK_DIR}:/usr/src/app paulokinjo/python-superlists:latest python3 manage.py test lists/"
+        TEST_COMMAND = "docker container run --rm -v ${env.WORKSPACE}/${env.WORK_DIR}:/usr/src/app paulokinjo/python-superlists:latest python3 manage.py test lists/"
       }
       steps {
         dir("${env.WORK_DIR}") {                            

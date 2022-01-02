@@ -3,7 +3,7 @@ pipeline {
 	agent any
   
 	environment {
-    WORK_DIR               = 'crm/djcrm'
+    WORK_DIR               = 'crm'
 		DOCKERHUB_CREDENTIALS  = 'dockerhub-cred-paulo'
     IMAGE_NAME             = "paulokinjo/python-djcrm"
     GIT_COMMIT             = sh(returnStdout: true, script: 'git log --format="%H" -n 1')
@@ -34,11 +34,11 @@ pipeline {
 
     stage('Unit Test') {            
       environment {
-        TEST_COMMAND = "docker container run --rm -v ${env.WORKSPACE}/${env.WORK_DIR}:/usr/src/app paulokinjo/python-superlists:latest python3 manage.py test lists/"
+        TEST_COMMAND = "docker container run --rm -v ${env.WORKSPACE}/${env.WORK_DIR}:/usr/src/app paulokinjo/python-djcrm:latest python3 manage.py test"
       }
       steps {
         dir("${env.WORK_DIR}") {                            
-          sh "${env.TEST_COMMAND}"
+          sh "${env.TEST_COMMAND}"          
         }
       }
     }

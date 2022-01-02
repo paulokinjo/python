@@ -52,7 +52,7 @@ pipeline {
         keepAll: true,
         reportDir: "${env.WORK_DIR}/reports/cover",
         reportFiles: 'index.html',
-        reportName: "SuperLists Test Coverage Report"
+        reportName: "DJCrm Test Coverage Report"
       ])
 		}
 	}

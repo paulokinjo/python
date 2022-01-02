@@ -12,7 +12,8 @@ ENV PYTHONUNBUFFERED 1
 RUN pip3 install --upgrade pip
 COPY ./requirements.txt .
 RUN pip3 install -r requirements.txt
-RUN python3 manage.py migrate
 
 # copy project
 COPY . .
+
+RUN python3 manage.py migrate

@@ -1,0 +1,2 @@
+seleniumbase==2.4.0
+autopep8==1.6.0

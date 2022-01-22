@@ -1,4 +1,4 @@
-Django==4.0
+Django==4.0.1
 selenium==4.1.0
 webdriver-manager==3.5.2
 django_nose==1.4.7
